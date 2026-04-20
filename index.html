@@ -24,190 +24,93 @@
     --id: #5bb3ff;
     --th: #ffaa44;
     --sg: #ff5c5c;
+    --asean: #c07fff;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'IBM Plex Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 13px;
-    min-height: 100vh;
-  }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; min-height: 100vh; }
 
   .header {
     padding: 20px 24px 16px;
     border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
-  .title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-  .subtitle {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 4px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .updated-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    background: var(--surface);
-    border: 1px solid var(--border-light);
-    padding: 4px 10px;
-    border-radius: 2px;
-    white-space: nowrap;
-    align-self: flex-start;
-    margin-top: 4px;
-  }
+  .title { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; text-transform: uppercase; }
+  .subtitle { font-size: 11px; color: var(--text-dim); margin-top: 4px; font-family: 'IBM Plex Mono', monospace; }
+  .updated-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); background: var(--surface); border: 1px solid var(--border-light); padding: 4px 10px; border-radius: 2px; white-space: nowrap; align-self: flex-start; margin-top: 4px; }
   .updated-badge span { color: var(--accent); }
 
-  .stats-bar {
-    display: flex;
-    gap: 20px;
-    padding: 12px 24px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    flex-wrap: wrap;
-  }
+  .stats-bar { display: flex; gap: 20px; padding: 12px 24px; border-bottom: 1px solid var(--border); background: var(--surface); flex-wrap: wrap; }
   .stat { display: flex; flex-direction: column; gap: 2px; }
-  .stat-val {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 10px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
+  .stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
   .stat-sep { width: 1px; background: var(--border-light); }
 
-  .controls {
-    display: flex;
-    gap: 8px;
-    padding: 12px 24px;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .filter-label {
-    font-size: 10px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-right: 2px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .filter-group { display: flex; gap: 4px; flex-wrap: wrap; }
+  .controls { display: flex; gap: 6px; padding: 10px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+  .filter-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; }
+  .filter-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; min-width: 60px; }
+  .filter-group { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; }
+  .divider-h { width: 100%; height: 1px; background: var(--border); margin: 2px 0; }
 
-  .chip {
-    padding: 4px 10px;
-    border-radius: 2px;
-    border: 1px solid var(--border-light);
-    background: transparent;
-    color: var(--text-mid);
-    font-size: 11px;
-    font-family: 'IBM Plex Mono', monospace;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
+  .chip { padding: 3px 9px; border-radius: 2px; border: 1px solid var(--border-light); background: transparent; color: var(--text-mid); font-size: 10px; font-family: 'IBM Plex Mono', monospace; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .chip:hover { border-color: var(--text-dim); color: var(--text); }
   .chip.active { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent); }
-  .chip.my.active { background: rgba(200,240,80,0.1); border-color: rgba(200,240,80,0.4); color: var(--my); }
-  .chip.id.active { background: rgba(91,179,255,0.1); border-color: rgba(91,179,255,0.4); color: var(--id); }
-  .chip.th.active { background: rgba(255,170,68,0.1); border-color: rgba(255,170,68,0.4); color: var(--th); }
-  .chip.sg.active { background: rgba(255,92,92,0.1); border-color: rgba(255,92,92,0.4); color: var(--sg); }
-
-  .divider { width: 1px; height: 20px; background: var(--border-light); margin: 0 4px; flex-shrink: 0; }
+  .chip.my.active  { background: rgba(200,240,80,0.1);  border-color: rgba(200,240,80,0.4);  color: var(--my); }
+  .chip.id.active  { background: rgba(91,179,255,0.1);  border-color: rgba(91,179,255,0.4);  color: var(--id); }
+  .chip.th.active  { background: rgba(255,170,68,0.1);  border-color: rgba(255,170,68,0.4);  color: var(--th); }
+  .chip.sg.active  { background: rgba(255,92,92,0.1);   border-color: rgba(255,92,92,0.4);   color: var(--sg); }
+  .chip.asn.active { background: rgba(192,127,255,0.1); border-color: rgba(192,127,255,0.4); color: var(--asean); }
+  .chip.us.active  { background: rgba(91,179,255,0.1);  border-color: rgba(91,179,255,0.35); color: #5bb3ff; }
+  .chip.cn.active  { background: rgba(255,80,80,0.1);   border-color: rgba(255,80,80,0.35);  color: #ff6060; }
+  .chip.gov.active { background: rgba(200,240,80,0.1);  border-color: rgba(200,240,80,0.35); color: var(--accent); }
+  .chip.mul.active { background: rgba(68,221,204,0.1);  border-color: rgba(68,221,204,0.35); color: var(--teal); }
+  .chip.dom.active { background: rgba(255,170,68,0.1);  border-color: rgba(255,170,68,0.35); color: #ffaa44; }
 
   .search-wrap { margin-left: auto; }
-  .search-input {
-    background: var(--surface);
-    border: 1px solid var(--border-light);
-    color: var(--text);
-    padding: 5px 10px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    width: 200px;
-    border-radius: 2px;
-    outline: none;
-  }
+  .search-input { background: var(--surface); border: 1px solid var(--border-light); color: var(--text); padding: 5px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; width: 200px; border-radius: 2px; outline: none; }
   .search-input:focus { border-color: var(--accent-border); }
   .search-input::placeholder { color: var(--text-dim); }
 
   .table-wrap { overflow-x: auto; }
-
   table { width: 100%; border-collapse: collapse; }
-  thead th {
-    padding: 10px 12px;
-    text-align: left;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-    background: var(--surface);
-  }
+  thead th { padding: 9px 12px; text-align: left; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; background: var(--surface); }
   thead th:hover { color: var(--text-mid); }
   thead th.sort-asc::after  { content: ' ↑'; color: var(--accent); }
   thead th.sort-desc::after { content: ' ↓'; color: var(--accent); }
   thead th.no-sort { cursor: default; }
   thead th.no-sort:hover { color: var(--text-dim); }
-
   tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
   tbody tr:hover { background: rgba(255,255,255,0.025); }
-  td { padding: 10px 12px; vertical-align: top; }
+  td { padding: 9px 12px; vertical-align: top; }
 
-  .country-dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    margin-right: 6px;
-    flex-shrink: 0;
-    position: relative; top: -1px;
-  }
-  .country-cell {
-    display: flex;
-    align-items: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    white-space: nowrap;
-  }
-  .dot-MY { background: var(--my); }
-  .dot-ID { background: var(--id); }
-  .dot-TH { background: var(--th); }
-  .dot-SG { background: var(--sg); }
+  .country-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; flex-shrink: 0; position: relative; top: -1px; }
+  .country-cell { display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; white-space: nowrap; }
+  .dot-MY    { background: var(--my); }
+  .dot-ID    { background: var(--id); }
+  .dot-TH    { background: var(--th); }
+  .dot-SG    { background: var(--sg); }
+  .dot-ASEAN { background: var(--asean); }
 
-  .company-badge { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; white-space: nowrap; }
-  .co-MSFT  { color: #5bb3ff; }
-  .co-GOOG  { color: #ffaa44; }
-  .co-AWS   { color: #ff9944; }
-  .co-NVDA  { color: #76d275; }
-  .co-META  { color: #7b9fff; }
-  .co-OTHER { color: var(--text-mid); }
+  .company-badge { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; }
+  .co-US   { color: #5bb3ff; }
+  .co-CN   { color: #ff6060; }
+  .co-GOV  { color: var(--accent); }
+  .co-MUL  { color: var(--teal); }
+  .co-DOM  { color: #ffaa44; }
 
-  .initiative-name { font-weight: 500; color: var(--text); margin-bottom: 2px; line-height: 1.4; }
-  .initiative-source { font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+  .provider-tag { display: inline-block; padding: 2px 6px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; margin-top: 3px; }
+  .pt-us  { background: rgba(91,179,255,0.08);  color: #5bb3ff; border: 1px solid rgba(91,179,255,0.2); }
+  .pt-cn  { background: rgba(255,80,80,0.08);   color: #ff6060; border: 1px solid rgba(255,80,80,0.2); }
+  .pt-gov { background: rgba(200,240,80,0.08);  color: #b8d840; border: 1px solid rgba(200,240,80,0.2); }
+  .pt-mul { background: rgba(68,221,204,0.08);  color: var(--teal); border: 1px solid rgba(68,221,204,0.2); }
+  .pt-dom { background: rgba(255,170,68,0.08);  color: #ffaa44; border: 1px solid rgba(255,170,68,0.2); }
+
+  .scope-tag { display: inline-block; padding: 1px 5px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.04em; white-space: nowrap; margin-top: 2px; }
+  .sc-country { background: rgba(255,255,255,0.04); color: var(--text-dim); border: 1px solid var(--border-light); }
+  .sc-asean   { background: rgba(192,127,255,0.08); color: #c07fff; border: 1px solid rgba(192,127,255,0.25); }
+
+  .initiative-name   { font-weight: 500; color: var(--text); margin-bottom: 2px; line-height: 1.4; }
+  .initiative-source { font-size: 10px; color: var(--text-dim); line-height: 1.4; }
 
   .number-cell { font-family: 'IBM Plex Mono', monospace; font-size: 12px; white-space: nowrap; }
   .number-cell.big    { color: var(--accent); font-weight: 500; }
@@ -218,16 +121,7 @@
 
   .year-cell { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); white-space: nowrap; }
 
-  .type-tag {
-    display: inline-block;
-    padding: 2px 7px;
-    border-radius: 2px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-  }
+  .type-tag { display: inline-block; padding: 2px 7px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
   .type-skilling      { background: rgba(200,240,80,0.08); color: #b8d840; border: 1px solid rgba(200,240,80,0.2); }
   .type-certification { background: rgba(91,179,255,0.10); color: #5bb3ff; border: 1px solid rgba(91,179,255,0.25); }
   .type-developer     { background: rgba(192,127,255,0.10); color: #c07fff; border: 1px solid rgba(192,127,255,0.25); }
@@ -235,55 +129,16 @@
   .type-research      { background: rgba(68,221,204,0.08); color: #44ddcc; border: 1px solid rgba(68,221,204,0.20); }
 
   .notes-cell { font-size: 11px; color: var(--text-dim); max-width: 260px; line-height: 1.5; }
-  .flag-tag {
-    display: inline-block;
-    margin-top: 5px;
-    padding: 1px 6px;
-    background: rgba(255,92,92,0.10);
-    border: 1px solid rgba(255,92,92,0.25);
-    color: #ff5c5c;
-    border-radius: 2px;
-    font-size: 9px;
-    font-family: 'IBM Plex Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+  .flag-tag { display: inline-block; margin-top: 5px; padding: 1px 6px; background: rgba(255,92,92,0.10); border: 1px solid rgba(255,92,92,0.25); color: #ff5c5c; border-radius: 2px; font-size: 9px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.04em; }
 
-  .loading-state, .error-state, .empty-state {
-    text-align: center;
-    padding: 56px 24px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
+  .loading-state, .error-state, .empty-state { text-align: center; padding: 56px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-dim); }
   .error-state { color: var(--red); }
-
-  .disclaimer {
-    padding: 10px 24px;
-    border-top: 1px solid var(--border);
-    font-size: 10px;
-    color: var(--text-dim);
-    font-style: italic;
-    line-height: 1.6;
-  }
-
-  /* Loading spinner */
-  .spinner {
-    display: inline-block;
-    width: 16px; height: 16px;
-    border: 2px solid var(--border-light);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-    margin-right: 8px;
-  }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border-light); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Responsive */
+  .disclaimer { padding: 10px 24px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-dim); font-style: italic; line-height: 1.6; }
+
   @media (max-width: 700px) {
-    .controls { gap: 6px; }
-    .divider { display: none; }
     .search-wrap { margin-left: 0; width: 100%; }
     .search-input { width: 100%; }
   }
@@ -294,7 +149,7 @@
 <div class="header">
   <div>
     <div class="title">SEA AI Upskilling Tracker</div>
-    <div class="subtitle">Corporate commitments · Malaysia · Indonesia · Thailand · Singapore</div>
+    <div class="subtitle">Corporate &amp; government commitments · Malaysia · Indonesia · Thailand · Singapore · ASEAN-wide</div>
   </div>
   <div class="updated-badge" id="updatedBadge">Loading…</div>
 </div>
@@ -304,16 +159,22 @@
 </div>
 
 <div class="controls">
-  <span class="filter-label">Country</span>
-  <div class="filter-group" id="countryFilters"></div>
-  <div class="divider"></div>
-  <span class="filter-label">Company</span>
-  <div class="filter-group" id="companyFilters"></div>
-  <div class="divider"></div>
-  <span class="filter-label">Type</span>
-  <div class="filter-group" id="typeFilters"></div>
-  <div class="search-wrap">
-    <input class="search-input" id="searchInput" placeholder="Search…" oninput="render()">
+  <div class="filter-row">
+    <span class="filter-label">Country</span>
+    <div class="filter-group" id="countryFilters"></div>
+    <div class="search-wrap">
+      <input class="search-input" id="searchInput" placeholder="Search…" oninput="render()">
+    </div>
+  </div>
+  <div class="divider-h"></div>
+  <div class="filter-row">
+    <span class="filter-label">Provider</span>
+    <div class="filter-group" id="providerFilters"></div>
+  </div>
+  <div class="divider-h"></div>
+  <div class="filter-row">
+    <span class="filter-label">Type</span>
+    <div class="filter-group" id="typeFilters"></div>
   </div>
 </div>
 
@@ -323,7 +184,7 @@
       <tr>
         <th onclick="setSort('year')">Year</th>
         <th onclick="setSort('country')">Country</th>
-        <th onclick="setSort('company')">Company</th>
+        <th class="no-sort">Company</th>
         <th class="no-sort">Initiative</th>
         <th onclick="setSort('target')">Target #</th>
         <th class="no-sort">Type</th>
@@ -335,56 +196,34 @@
     </tbody>
   </table>
 </div>
-
 <div class="disclaimer" id="disclaimer"></div>
 
 <script>
-  // ── State ──────────────────────────────────────────────────────────────────
-  let allData   = [];
-  let meta      = {};
-  let filters   = { country: new Set(), company: new Set(), type: new Set() };
-  let sortKey   = 'year';
-  let sortDir   = 'desc';
+  let allData = [], meta = {};
+  let filters = { country: new Set(), provider: new Set(), type: new Set() };
+  let sortKey = 'year', sortDir = 'desc';
 
-  // ── Boot ──────────────────────────────────────────────────────────────────
+  const COUNTRY_LABELS = { MY:'Malaysia', ID:'Indonesia', TH:'Thailand', SG:'Singapore', ASEAN:'ASEAN-wide' };
+  const TYPE_LABELS    = { skilling:'Broad skilling', certification:'Certification', developer:'Developer', coe:'CoE', research:'Research' };
+  const PROVIDER_KEYS  = ['US Hyperscaler','Chinese Cloud','Government','Multilateral','Domestic Conglomerate'];
+  const PROVIDER_SHORT = { 'US Hyperscaler':'US Hyperscaler', 'Chinese Cloud':'Chinese Cloud', 'Government':'Government', 'Multilateral':'Multilateral', 'Domestic Conglomerate':'Domestic Firm' };
+  const PROVIDER_CSS   = { 'US Hyperscaler':'us', 'Chinese Cloud':'cn', 'Government':'gov', 'Multilateral':'mul', 'Domestic Conglomerate':'dom' };
+  const PROVIDER_CO_CSS = { 'US Hyperscaler':'co-US', 'Chinese Cloud':'co-CN', 'Government':'co-GOV', 'Multilateral':'co-MUL', 'Domestic Conglomerate':'co-DOM' };
+  const PROVIDER_PT_CSS = { 'US Hyperscaler':'pt-us', 'Chinese Cloud':'pt-cn', 'Government':'pt-gov', 'Multilateral':'pt-mul', 'Domestic Conglomerate':'pt-dom' };
+
   fetch('data.json?v=' + Date.now())
     .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(json => {
       allData = json.entries || [];
       meta    = json.meta    || {};
-      document.getElementById('updatedBadge').innerHTML =
-        'Last updated: <span>' + (meta.last_updated || 'unknown') + '</span>';
+      document.getElementById('updatedBadge').innerHTML = 'Last updated: <span>' + (meta.last_updated || 'unknown') + '</span>';
       render();
     })
     .catch(err => {
-      document.getElementById('tableBody').innerHTML =
-        `<tr><td colspan="7" class="error-state">Failed to load data.json — ${err.message}</td></tr>`;
+      document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="error-state">Failed to load data.json — ${err.message}</td></tr>`;
       document.getElementById('updatedBadge').textContent = 'Data unavailable';
     });
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
-  const COUNTRY_LABELS = { MY:'Malaysia', ID:'Indonesia', TH:'Thailand', SG:'Singapore' };
-  const TYPE_LABELS    = { skilling:'Broad skilling', certification:'Certification', developer:'Developer', coe:'CoE', research:'Research' };
-  const CO_LABELS      = { MSFT:'Microsoft', GOOG:'Google', AWS:'AWS', NVDA:'NVIDIA', META:'Meta', OTHER:'Other' };
-
-  function companyKey(c) {
-    if (!c) return 'OTHER';
-    if (c.includes('Microsoft')) return 'MSFT';
-    if (c.includes('Google'))    return 'GOOG';
-    if (c.includes('AWS') || c.includes('Amazon')) return 'AWS';
-    if (c.includes('NVIDIA'))    return 'NVDA';
-    if (c.includes('Meta'))      return 'META';
-    return 'OTHER';
-  }
-
-  function fmtTarget(n, unit) {
-    if (!n) return '<span class="number-cell none">—</span>';
-    const cls = n >= 500000 ? 'big' : n >= 50000 ? 'medium' : 'small';
-    const val = n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : n;
-    return `<span class="number-cell ${cls}">${val}${unit ? `<span class="number-unit">${unit}</span>` : ''}</span>`;
-  }
-
-  // ── Filtering & sorting ───────────────────────────────────────────────────
   function toggleFilter(dim, val) {
     filters[dim].has(val) ? filters[dim].delete(val) : filters[dim].add(val);
     render();
@@ -400,20 +239,30 @@
     const q = (document.getElementById('searchInput').value || '').toLowerCase();
     return allData
       .filter(d => {
-        if (filters.country.size && !filters.country.has(d.country)) return false;
-        if (filters.company.size && !filters.company.has(companyKey(d.company))) return false;
-        if (filters.type.size    && !filters.type.has(d.type))        return false;
-        if (q && !JSON.stringify(d).toLowerCase().includes(q))         return false;
+        if (filters.country.size  && !filters.country.has(d.country))        return false;
+        if (filters.provider.size && !filters.provider.has(d.provider_type)) return false;
+        if (filters.type.size     && !filters.type.has(d.type))              return false;
+        if (q && !JSON.stringify(d).toLowerCase().includes(q))                return false;
         return true;
       })
-      .sort((a, b) => {
-        const av = sortKey === 'target' ? (a.target || 0) : (a[sortKey] || '');
-        const bv = sortKey === 'target' ? (b.target || 0) : (b[sortKey] || '');
+      .sort((a,b) => {
+        const av = sortKey === 'target' ? (a.target||0) : (a[sortKey]||'');
+        const bv = sortKey === 'target' ? (b.target||0) : (b[sortKey]||'');
         return sortDir === 'asc' ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
       });
   }
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  function fmtTarget(n, unit) {
+    if (!n) return '<span class="number-cell none">—</span>';
+    const cls = n >= 1000000 ? 'big' : n >= 50000 ? 'medium' : 'small';
+    const val = n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : n;
+    return `<span class="number-cell ${cls}">${val}${unit ? `<span class="number-unit">${escHtml(unit)}</span>` : ''}</span>`;
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
   function render() {
     renderFilters();
     const filtered = getFiltered();
@@ -422,24 +271,26 @@
   }
 
   function renderFilters() {
-    const countries = ['MY','ID','TH','SG'];
-    const companies = ['MSFT','GOOG','AWS','NVDA','META','OTHER'];
+    const countries = ['MY','ID','TH','SG','ASEAN'];
     const types     = ['skilling','certification','developer','coe','research'];
-    const typeShort = { skilling:'Skilling', certification:'Cert', developer:'Dev', coe:'CoE', research:'Research' };
+    const typeShort = { skilling:'Skilling', certification:'Cert', developer:'Developer', coe:'CoE', research:'Research' };
 
-    document.getElementById('countryFilters').innerHTML = countries.map(c =>
-      `<button class="chip ${c.toLowerCase()} ${filters.country.has(c)?'active':''}" onclick="toggleFilter('country','${c}')">${COUNTRY_LABELS[c]}</button>`
-    ).join('');
-    document.getElementById('companyFilters').innerHTML = companies.map(c =>
-      `<button class="chip ${filters.company.has(c)?'active':''}" onclick="toggleFilter('company','${c}')">${CO_LABELS[c]}</button>`
-    ).join('');
+    document.getElementById('countryFilters').innerHTML = countries.map(c => {
+      const cls = { MY:'my', ID:'id', TH:'th', SG:'sg', ASEAN:'asn' }[c] || '';
+      return `<button class="chip ${cls} ${filters.country.has(c)?'active':''}" onclick="toggleFilter('country','${c}')">${COUNTRY_LABELS[c]||c}</button>`;
+    }).join('');
+
+    document.getElementById('providerFilters').innerHTML = PROVIDER_KEYS.map(p => {
+      const css = PROVIDER_CSS[p] || '';
+      return `<button class="chip ${css} ${filters.provider.has(p)?'active':''}" onclick="toggleFilter('provider',${JSON.stringify(p)})">${PROVIDER_SHORT[p]}</button>`;
+    }).join('');
+
     document.getElementById('typeFilters').innerHTML = types.map(t =>
       `<button class="chip ${filters.type.has(t)?'active':''}" onclick="toggleFilter('type','${t}')">${typeShort[t]}</button>`
     ).join('');
 
-    // Sort indicators
     document.querySelectorAll('thead th').forEach(th => th.classList.remove('sort-asc','sort-desc'));
-    const thMap = { year: 0, country: 1, company: 2, target: 4 };
+    const thMap = { year:0, country:1, target:4 };
     const idx = thMap[sortKey];
     if (idx !== undefined) {
       const th = document.querySelectorAll('thead th')[idx];
@@ -448,17 +299,23 @@
   }
 
   function renderStats(filtered) {
-    const total    = filtered.reduce((s, d) => s + (d.target || 0), 0);
-    const fmtBig   = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : (n || '—');
-    const cos      = new Set(filtered.map(d => companyKey(d.company)));
-    const flagged  = filtered.filter(d => d.flag).length;
+    const total   = filtered.reduce((s,d) => s + (d.target||0), 0);
+    const fmtBig  = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : (n || '—');
+    const cos     = new Set(filtered.map(d => d.company));
+    const flagged = filtered.filter(d => d.flag).length;
+    const govCount = filtered.filter(d => d.provider_type === 'Government').length;
+    const cnCount  = filtered.filter(d => d.provider_type === 'Chinese Cloud').length;
 
     document.getElementById('statsBar').innerHTML = `
       <div class="stat"><div class="stat-val">${filtered.length}</div><div class="stat-label">Entries</div></div>
       <div class="stat-sep"></div>
       <div class="stat"><div class="stat-val">${fmtBig(total)}</div><div class="stat-label">Headcount claimed</div></div>
       <div class="stat-sep"></div>
-      <div class="stat"><div class="stat-val">${cos.size}</div><div class="stat-label">Companies</div></div>
+      <div class="stat"><div class="stat-val">${cos.size}</div><div class="stat-label">Organizations</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-val">${govCount}</div><div class="stat-label">Govt programs</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-val">${cnCount}</div><div class="stat-label">Chinese cloud</div></div>
       <div class="stat-sep"></div>
       <div class="stat"><div class="stat-val">${flagged}</div><div class="stat-label">Flagged</div></div>
     `;
@@ -472,16 +329,26 @@
       return;
     }
 
-    tbody.innerHTML = filtered.map(d => `
+    tbody.innerHTML = filtered.map(d => {
+      const pt    = d.provider_type || '';
+      const coCss = PROVIDER_CO_CSS[pt] || 'co-US';
+      const ptCss = PROVIDER_PT_CSS[pt] || 'pt-us';
+      const scCss = (d.scope || '').toLowerCase().includes('asean') ? 'sc-asean' : 'sc-country';
+      const scLabel = (d.scope || '').toLowerCase().includes('asean') ? 'ASEAN-wide' : 'Country';
+      return `
       <tr>
         <td class="year-cell">${d.year}</td>
         <td>
           <div class="country-cell">
             <span class="country-dot dot-${d.country}"></span>
-            ${COUNTRY_LABELS[d.country] || d.country}
+            ${escHtml(COUNTRY_LABELS[d.country] || d.country)}
           </div>
+          <span class="scope-tag ${scCss}">${scLabel}</span>
         </td>
-        <td><span class="company-badge co-${companyKey(d.company)}">${d.company}</span></td>
+        <td style="min-width:120px">
+          <div class="company-badge ${coCss}">${escHtml(d.company)}</div>
+          <span class="provider-tag ${ptCss}">${escHtml(pt)}</span>
+        </td>
         <td style="min-width:190px">
           <div class="initiative-name">${escHtml(d.name)}</div>
           <div class="initiative-source">${escHtml(d.source || '')}</div>
@@ -492,20 +359,15 @@
           ${escHtml(d.notes || '')}
           ${d.flag ? `<span class="flag-tag">⚑ ${escHtml(d.flag)}</span>` : ''}
         </td>
-      </tr>
-    `).join('');
+      </tr>`;
+    }).join('');
 
     document.getElementById('disclaimer').textContent =
-      `${filtered.length} of ${allData.length} entries · ` +
-      `Total headcount includes overlapping and unverified targets · ` +
+      `${filtered.length} of ${allData.length} entries shown · ` +
+      `Total headcount includes overlapping programs and unverified targets · ` +
+      `ASEAN-wide figures should not be summed with country-level subsets · ` +
       `Analytical flags are editorial · ` +
       (meta.last_updated ? `Data as of ${meta.last_updated}` : '');
-  }
-
-  function escHtml(s) {
-    return String(s)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 </script>
 </body>
