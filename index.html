@@ -10,6 +10,7 @@
   :root {
     --bg: #0f0f0f;
     --surface: #181818;
+    --surface2: #1e1e1e;
     --border: #2a2a2a;
     --border-light: #333;
     --text: #e8e6e1;
@@ -45,6 +46,13 @@
   .stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--accent); line-height: 1; }
   .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
   .stat-sep { width: 1px; background: var(--border-light); }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .tab-btn { padding: 11px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); background: none; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
+  .tab-btn:hover { color: var(--text-mid); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
 
   .controls { display: flex; gap: 6px; padding: 10px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
   .filter-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; }
@@ -85,18 +93,13 @@
 
   .country-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; flex-shrink: 0; position: relative; top: -1px; }
   .country-cell { display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; white-space: nowrap; }
-  .dot-MY    { background: var(--my); }
-  .dot-ID    { background: var(--id); }
-  .dot-TH    { background: var(--th); }
-  .dot-SG    { background: var(--sg); }
+  .dot-MY { background: var(--my); } .dot-ID { background: var(--id); }
+  .dot-TH { background: var(--th); } .dot-SG { background: var(--sg); }
   .dot-ASEAN { background: var(--asean); }
 
   .company-badge { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; }
-  .co-US   { color: #5bb3ff; }
-  .co-CN   { color: #ff6060; }
-  .co-GOV  { color: var(--accent); }
-  .co-MUL  { color: var(--teal); }
-  .co-DOM  { color: #ffaa44; }
+  .co-US { color: #5bb3ff; } .co-CN { color: #ff6060; } .co-GOV { color: var(--accent); }
+  .co-MUL { color: var(--teal); } .co-DOM { color: #ffaa44; }
 
   .provider-tag { display: inline-block; padding: 2px 6px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; margin-top: 3px; }
   .pt-us  { background: rgba(91,179,255,0.08);  color: #5bb3ff; border: 1px solid rgba(91,179,255,0.2); }
@@ -138,9 +141,32 @@
 
   .disclaimer { padding: 10px 24px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-dim); font-style: italic; line-height: 1.6; }
 
+  .charts-wrap { padding: 24px; }
+  .chart-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  .ctrl-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
+  .ctrl-btn { padding: 4px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-mid); background: transparent; border: 1px solid var(--border-light); border-radius: 2px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .ctrl-btn:hover { color: var(--text); border-color: var(--text-dim); }
+  .ctrl-btn.active { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent); }
+  .ctrl-sep { width: 1px; height: 20px; background: var(--border-light); margin: 0 4px; }
+
+  .chart-note { font-size: 11px; color: var(--text-dim); font-style: italic; margin-bottom: 16px; min-height: 16px; line-height: 1.5; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-mid); }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .chart-canvas-wrap { position: relative; width: 100%; }
+
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 24px; }
+  .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 12px 14px; }
+  .metric-name { font-size: 10px; color: var(--text-dim); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'IBM Plex Mono', monospace; }
+  .metric-val  { font-size: 20px; font-weight: 500; color: var(--text); font-family: 'IBM Plex Mono', monospace; line-height: 1; }
+  .metric-sub  { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+  .metric-bar-bg { margin-top: 8px; height: 3px; border-radius: 2px; background: var(--border-light); }
+  .metric-bar-fg { height: 3px; border-radius: 2px; }
+
   @media (max-width: 700px) {
     .search-wrap { margin-left: 0; width: 100%; }
     .search-input { width: 100%; }
+    .charts-wrap { padding: 16px; }
   }
 </style>
 </head>
@@ -158,217 +184,333 @@
   <div class="stat"><div class="stat-val">—</div><div class="stat-label">Entries</div></div>
 </div>
 
-<div class="controls">
-  <div class="filter-row">
-    <span class="filter-label">Country</span>
-    <div class="filter-group" id="countryFilters"></div>
-    <div class="search-wrap">
-      <input class="search-input" id="searchInput" placeholder="Search…" oninput="render()">
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('table')" id="tab-table">Data table</button>
+  <button class="tab-btn" onclick="switchTab('charts')" id="tab-charts">Visualize</button>
+</div>
+
+<div class="tab-pane active" id="pane-table">
+  <div class="controls">
+    <div class="filter-row">
+      <span class="filter-label">Country</span>
+      <div class="filter-group" id="countryFilters"></div>
+      <div class="search-wrap">
+        <input class="search-input" id="searchInput" placeholder="Search…" oninput="renderTable()">
+      </div>
+    </div>
+    <div class="divider-h"></div>
+    <div class="filter-row">
+      <span class="filter-label">Provider</span>
+      <div class="filter-group" id="providerFilters"></div>
+    </div>
+    <div class="divider-h"></div>
+    <div class="filter-row">
+      <span class="filter-label">Type</span>
+      <div class="filter-group" id="typeFilters"></div>
     </div>
   </div>
-  <div class="divider-h"></div>
-  <div class="filter-row">
-    <span class="filter-label">Provider</span>
-    <div class="filter-group" id="providerFilters"></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="setSort('year')">Year</th>
+          <th onclick="setSort('country')">Country</th>
+          <th class="no-sort">Company</th>
+          <th class="no-sort">Initiative</th>
+          <th onclick="setSort('target')">Target #</th>
+          <th class="no-sort">Type</th>
+          <th class="no-sort">Notes / Analytical Flags</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr><td colspan="7" class="loading-state"><span class="spinner"></span>Loading data…</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="divider-h"></div>
-  <div class="filter-row">
-    <span class="filter-label">Type</span>
-    <div class="filter-group" id="typeFilters"></div>
+  <div class="disclaimer" id="disclaimer"></div>
+</div>
+
+<div class="tab-pane" id="pane-charts">
+  <div class="charts-wrap">
+    <div class="chart-controls">
+      <span class="ctrl-label">Show</span>
+      <button class="ctrl-btn active" id="cbtn-commitments" onclick="setChartMode('commitments')">Commitments</button>
+      <button class="ctrl-btn" id="cbtn-headcount" onclick="setChartMode('headcount')">Headcount claimed</button>
+      <div class="ctrl-sep"></div>
+      <span class="ctrl-label">By</span>
+      <button class="ctrl-btn active" id="cbtn-country" onclick="setChartDim('country')">Country invested in</button>
+      <button class="ctrl-btn" id="cbtn-provider" onclick="setChartDim('provider')">Provider type</button>
+      <button class="ctrl-btn" id="cbtn-company" onclick="setChartDim('company')">Company</button>
+    </div>
+    <div class="chart-note" id="chartNote"></div>
+    <div class="chart-legend" id="chartLegend"></div>
+    <div class="chart-canvas-wrap" id="chartWrap">
+      <canvas id="mainChart" role="img" aria-label="Bar chart of SEA AI upskilling data"></canvas>
+    </div>
+    <div class="metric-grid" id="metricGrid"></div>
   </div>
 </div>
 
-<div class="table-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th onclick="setSort('year')">Year</th>
-        <th onclick="setSort('country')">Country</th>
-        <th class="no-sort">Company</th>
-        <th class="no-sort">Initiative</th>
-        <th onclick="setSort('target')">Target #</th>
-        <th class="no-sort">Type</th>
-        <th class="no-sort">Notes / Analytical Flags</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <tr><td colspan="7" class="loading-state"><span class="spinner"></span>Loading data…</td></tr>
-    </tbody>
-  </table>
-</div>
-<div class="disclaimer" id="disclaimer"></div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-  let allData = [], meta = {};
-  let filters = { country: new Set(), provider: new Set(), type: new Set() };
-  let sortKey = 'year', sortDir = 'desc';
+let allData = [], meta = {};
+let tFilters = { country: new Set(), provider: new Set(), type: new Set() };
+let sortKey = 'year', sortDir = 'desc';
+let chartMode = 'commitments', chartDim = 'country';
+let chartInst = null;
 
-  const COUNTRY_LABELS = { MY:'Malaysia', ID:'Indonesia', TH:'Thailand', SG:'Singapore', ASEAN:'ASEAN-wide' };
-  const TYPE_LABELS    = { skilling:'Broad skilling', certification:'Certification', developer:'Developer', coe:'CoE', research:'Research' };
-  const PROVIDER_KEYS  = ['US Hyperscaler','Chinese Cloud','Government','Multilateral','Domestic Conglomerate'];
-  const PROVIDER_SHORT = { 'US Hyperscaler':'US Hyperscaler', 'Chinese Cloud':'Chinese Cloud', 'Government':'Government', 'Multilateral':'Multilateral', 'Domestic Conglomerate':'Domestic Firm' };
-  const PROVIDER_CSS   = { 'US Hyperscaler':'us', 'Chinese Cloud':'cn', 'Government':'gov', 'Multilateral':'mul', 'Domestic Conglomerate':'dom' };
-  const PROVIDER_CO_CSS = { 'US Hyperscaler':'co-US', 'Chinese Cloud':'co-CN', 'Government':'co-GOV', 'Multilateral':'co-MUL', 'Domestic Conglomerate':'co-DOM' };
-  const PROVIDER_PT_CSS = { 'US Hyperscaler':'pt-us', 'Chinese Cloud':'pt-cn', 'Government':'pt-gov', 'Multilateral':'pt-mul', 'Domestic Conglomerate':'pt-dom' };
+const COUNTRY_LABELS = { MY:'Malaysia', ID:'Indonesia', TH:'Thailand', SG:'Singapore', ASEAN:'ASEAN-wide' };
+const TYPE_LABELS    = { skilling:'Broad skilling', certification:'Certification', developer:'Developer', coe:'CoE', research:'Research' };
+const PROVIDER_KEYS  = ['US Hyperscaler','Chinese Cloud','Government','Multilateral','Domestic Conglomerate'];
+const PROVIDER_SHORT = { 'US Hyperscaler':'US Hyperscaler','Chinese Cloud':'Chinese Cloud','Government':'Government','Multilateral':'Multilateral','Domestic Conglomerate':'Domestic Firm' };
+const PROVIDER_CSS   = { 'US Hyperscaler':'us','Chinese Cloud':'cn','Government':'gov','Multilateral':'mul','Domestic Conglomerate':'dom' };
+const PROVIDER_CO    = { 'US Hyperscaler':'co-US','Chinese Cloud':'co-CN','Government':'co-GOV','Multilateral':'co-MUL','Domestic Conglomerate':'co-DOM' };
+const PROVIDER_PT    = { 'US Hyperscaler':'pt-us','Chinese Cloud':'pt-cn','Government':'pt-gov','Multilateral':'pt-mul','Domestic Conglomerate':'pt-dom' };
+const PROVIDER_HEX   = { 'US Hyperscaler':'#378ADD','Chinese Cloud':'#E24B4A','Government':'#639922','Multilateral':'#1D9E75','Domestic Conglomerate':'#BA7517' };
+const COUNTRY_HEX    = { MY:'#639922',ID:'#378ADD',TH:'#BA7517',SG:'#E24B4A',ASEAN:'#7F77DD' };
+const CHART_PALETTE  = ['#378ADD','#E24B4A','#639922','#BA7517','#7F77DD','#1D9E75','#D4537E','#888780','#c8f050','#44ddcc'];
 
-  fetch('data.json?v=' + Date.now())
-    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(json => {
-      allData = json.entries || [];
-      meta    = json.meta    || {};
-      document.getElementById('updatedBadge').innerHTML = 'Last updated: <span>' + (meta.last_updated || 'unknown') + '</span>';
-      render();
-    })
-    .catch(err => {
-      document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="error-state">Failed to load data.json — ${err.message}</td></tr>`;
-      document.getElementById('updatedBadge').textContent = 'Data unavailable';
-    });
+fetch('data.json?v=' + Date.now())
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(json => {
+    allData = json.entries || [];
+    meta    = json.meta    || {};
+    document.getElementById('updatedBadge').innerHTML = 'Last updated: <span>' + (meta.last_updated || 'unknown') + '</span>';
+    renderStats(allData);
+    renderTableFilters();
+    renderTable();
+    drawChart();
+  })
+  .catch(err => {
+    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="error-state">Failed to load data.json — ${err.message}</td></tr>`;
+    document.getElementById('updatedBadge').textContent = 'Data unavailable';
+  });
 
-  function toggleFilter(dim, val) {
-    filters[dim].has(val) ? filters[dim].delete(val) : filters[dim].add(val);
-    render();
+function switchTab(tab) {
+  ['table','charts'].forEach(t => {
+    document.getElementById('pane-'+t).classList.toggle('active', t===tab);
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+  if (tab === 'charts') drawChart();
+}
+
+function renderStats(data) {
+  const total   = data.reduce((s,d) => s + (d.target||0), 0);
+  const fmt     = n => n>=1e6?(n/1e6).toFixed(1)+'M':n>=1000?Math.round(n/1000)+'K':(n||'—');
+  const govN    = data.filter(d=>d.provider_type==='Government').length;
+  const cnN     = data.filter(d=>d.provider_type==='Chinese Cloud').length;
+  const flagged = data.filter(d=>d.flag).length;
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="stat-val">${data.length}</div><div class="stat-label">Entries</div></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><div class="stat-val">${fmt(total)}</div><div class="stat-label">Headcount claimed</div></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><div class="stat-val">${new Set(data.map(d=>d.company)).size}</div><div class="stat-label">Organizations</div></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><div class="stat-val">${govN}</div><div class="stat-label">Govt programs</div></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><div class="stat-val">${cnN}</div><div class="stat-label">Chinese cloud</div></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><div class="stat-val">${flagged}</div><div class="stat-label">Flagged</div></div>`;
+}
+
+function toggleFilter(dim, val) {
+  tFilters[dim].has(val) ? tFilters[dim].delete(val) : tFilters[dim].add(val);
+  renderTableFilters();
+  renderTable();
+}
+function setSort(key) {
+  sortDir = sortKey===key ? (sortDir==='asc'?'desc':'asc') : 'desc';
+  sortKey = key;
+  renderTable();
+}
+
+function getFiltered() {
+  const q = (document.getElementById('searchInput').value||'').toLowerCase();
+  return allData.filter(d => {
+    if (tFilters.country.size  && !tFilters.country.has(d.country))        return false;
+    if (tFilters.provider.size && !tFilters.provider.has(d.provider_type)) return false;
+    if (tFilters.type.size     && !tFilters.type.has(d.type))              return false;
+    if (q && !JSON.stringify(d).toLowerCase().includes(q))                  return false;
+    return true;
+  }).sort((a,b) => {
+    const av = sortKey==='target'?(a.target||0):(a[sortKey]||'');
+    const bv = sortKey==='target'?(b.target||0):(b[sortKey]||'');
+    return sortDir==='asc'?(av>bv?1:-1):(av<bv?1:-1);
+  });
+}
+
+function fmtTarget(n, unit) {
+  if (!n) return '<span class="number-cell none">—</span>';
+  const cls = n>=500000?'big':n>=50000?'medium':'small';
+  const val = n>=1e6?(n/1e6).toFixed(1)+'M':n>=1000?Math.round(n/1000)+'K':n;
+  return `<span class="number-cell ${cls}">${val}${unit?`<span class="number-unit">${esc(unit)}</span>`:''}`;
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderTableFilters() {
+  const countries = ['MY','ID','TH','SG','ASEAN'];
+  const types     = ['skilling','certification','developer','coe','research'];
+  const typeShort = {skilling:'Skilling',certification:'Cert',developer:'Developer',coe:'CoE',research:'Research'};
+  const countryCss= {MY:'my',ID:'id',TH:'th',SG:'sg',ASEAN:'asn'};
+
+  document.getElementById('countryFilters').innerHTML = countries.map(c =>
+    `<button class="chip ${countryCss[c]||''} ${tFilters.country.has(c)?'active':''}" onclick="toggleFilter('country','${c}')">${COUNTRY_LABELS[c]||c}</button>`
+  ).join('');
+  document.getElementById('providerFilters').innerHTML = PROVIDER_KEYS.map(p =>
+    `<button class="chip ${PROVIDER_CSS[p]||''} ${tFilters.provider.has(p)?'active':''}" onclick="toggleFilter('provider',${JSON.stringify(p)})">${PROVIDER_SHORT[p]}</button>`
+  ).join('');
+  document.getElementById('typeFilters').innerHTML = types.map(t =>
+    `<button class="chip ${tFilters.type.has(t)?'active':''}" onclick="toggleFilter('type','${t}')">${typeShort[t]}</button>`
+  ).join('');
+
+  document.querySelectorAll('thead th').forEach(th => th.classList.remove('sort-asc','sort-desc'));
+  const thIdx = {year:0,country:1,target:4}[sortKey];
+  if (thIdx !== undefined) {
+    const th = document.querySelectorAll('thead th')[thIdx];
+    if (th) th.classList.add('sort-'+sortDir);
   }
+}
 
-  function setSort(key) {
-    sortDir = sortKey === key ? (sortDir === 'asc' ? 'desc' : 'asc') : 'desc';
-    sortKey = key;
-    render();
+function renderTable() {
+  renderTableFilters();
+  const filtered = getFiltered();
+  const tbody = document.getElementById('tableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No matching entries</td></tr>';
+    document.getElementById('disclaimer').textContent = '';
+    return;
   }
+  tbody.innerHTML = filtered.map(d => {
+    const pt    = d.provider_type||'';
+    const scCss = (d.scope||'').toLowerCase().includes('asean')?'sc-asean':'sc-country';
+    const scLbl = (d.scope||'').toLowerCase().includes('asean')?'ASEAN-wide':'Country';
+    return `<tr>
+      <td class="year-cell">${d.year}</td>
+      <td>
+        <div class="country-cell"><span class="country-dot dot-${d.country}"></span>${esc(COUNTRY_LABELS[d.country]||d.country)}</div>
+        <span class="scope-tag ${scCss}">${scLbl}</span>
+      </td>
+      <td style="min-width:120px">
+        <div class="company-badge ${PROVIDER_CO[pt]||'co-US'}">${esc(d.company)}</div>
+        <span class="provider-tag ${PROVIDER_PT[pt]||'pt-us'}">${esc(pt)}</span>
+      </td>
+      <td style="min-width:190px">
+        <div class="initiative-name">${esc(d.name)}</div>
+        <div class="initiative-source">${esc(d.source||'')}</div>
+      </td>
+      <td>${fmtTarget(d.target,d.unit)}</td>
+      <td><span class="type-tag type-${d.type||'skilling'}">${TYPE_LABELS[d.type]||d.type}</span></td>
+      <td class="notes-cell">${esc(d.notes||'')}${d.flag?`<span class="flag-tag">⚑ ${esc(d.flag)}</span>`:''}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('disclaimer').textContent =
+    `${filtered.length} of ${allData.length} entries shown · Headcount includes overlapping/unverified targets · ASEAN-wide figures should not be summed with country subsets · Analytical flags are editorial · Data as of ${meta.last_updated||'unknown'}`;
+}
 
-  function getFiltered() {
-    const q = (document.getElementById('searchInput').value || '').toLowerCase();
-    return allData
-      .filter(d => {
-        if (filters.country.size  && !filters.country.has(d.country))        return false;
-        if (filters.provider.size && !filters.provider.has(d.provider_type)) return false;
-        if (filters.type.size     && !filters.type.has(d.type))              return false;
-        if (q && !JSON.stringify(d).toLowerCase().includes(q))                return false;
-        return true;
-      })
-      .sort((a,b) => {
-        const av = sortKey === 'target' ? (a.target||0) : (a[sortKey]||'');
-        const bv = sortKey === 'target' ? (b.target||0) : (b[sortKey]||'');
-        return sortDir === 'asc' ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
-      });
-  }
+function setChartMode(m) { chartMode=m; updateChartBtns(); drawChart(); }
+function setChartDim(d)  { chartDim=d;  updateChartBtns(); drawChart(); }
 
-  function fmtTarget(n, unit) {
-    if (!n) return '<span class="number-cell none">—</span>';
-    const cls = n >= 1000000 ? 'big' : n >= 50000 ? 'medium' : 'small';
-    const val = n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : n;
-    return `<span class="number-cell ${cls}">${val}${unit ? `<span class="number-unit">${escHtml(unit)}</span>` : ''}</span>`;
-  }
+function updateChartBtns() {
+  ['commitments','headcount'].forEach(m => {
+    document.getElementById('cbtn-'+m).classList.toggle('active', chartMode===m);
+  });
+  ['country','provider','company'].forEach(d => {
+    document.getElementById('cbtn-'+d).classList.toggle('active', chartDim===d);
+  });
+}
 
-  function escHtml(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+function aggregateChart() {
+  const groups = {};
+  allData.forEach(d => {
+    let key;
+    if (chartDim==='country')       key = COUNTRY_LABELS[d.country]||d.country;
+    else if (chartDim==='provider') key = d.provider_type||'Unknown';
+    else                            key = d.company;
+    if (!groups[key]) groups[key]={commits:0,headcount:0};
+    groups[key].commits++;
+    if (d.target) groups[key].headcount += d.target;
+  });
+  return groups;
+}
 
-  function render() {
-    renderFilters();
-    const filtered = getFiltered();
-    renderStats(filtered);
-    renderTable(filtered);
-  }
+function drawChart() {
+  if (!allData.length) return;
+  const groups  = aggregateChart();
+  const valKey  = chartMode==='commitments'?'commits':'headcount';
+  let entries   = Object.entries(groups);
+  entries.sort((a,b) => b[1][valKey]-a[1][valKey]);
+  if (chartMode==='headcount') entries = entries.filter(([,v])=>v.headcount>0);
 
-  function renderFilters() {
-    const countries = ['MY','ID','TH','SG','ASEAN'];
-    const types     = ['skilling','certification','developer','coe','research'];
-    const typeShort = { skilling:'Skilling', certification:'Cert', developer:'Developer', coe:'CoE', research:'Research' };
+  const labels = entries.map(([k])=>k);
+  const values = entries.map(([,v])=>v[valKey]);
+  const colors = entries.map(([k],i) => {
+    if (chartDim==='provider') return PROVIDER_HEX[k]||CHART_PALETTE[i%CHART_PALETTE.length];
+    if (chartDim==='country') {
+      const code = Object.entries(COUNTRY_LABELS).find(([,v])=>v===k)?.[0];
+      return COUNTRY_HEX[code]||CHART_PALETTE[i%CHART_PALETTE.length];
+    }
+    return CHART_PALETTE[i%CHART_PALETTE.length];
+  });
 
-    document.getElementById('countryFilters').innerHTML = countries.map(c => {
-      const cls = { MY:'my', ID:'id', TH:'th', SG:'sg', ASEAN:'asn' }[c] || '';
-      return `<button class="chip ${cls} ${filters.country.has(c)?'active':''}" onclick="toggleFilter('country','${c}')">${COUNTRY_LABELS[c]||c}</button>`;
-    }).join('');
+  const isHoriz = chartDim==='company'||labels.length>5;
+  const h = isHoriz ? Math.max(260, labels.length*42+80) : 300;
+  document.getElementById('chartWrap').style.height = h+'px';
 
-    document.getElementById('providerFilters').innerHTML = PROVIDER_KEYS.map(p => {
-      const css = PROVIDER_CSS[p] || '';
-      return `<button class="chip ${css} ${filters.provider.has(p)?'active':''}" onclick="toggleFilter('provider',${JSON.stringify(p)})">${PROVIDER_SHORT[p]}</button>`;
-    }).join('');
+  document.getElementById('chartNote').textContent = chartMode==='headcount'
+    ? 'Figures are announced targets, not verified completions. ASEAN-wide commitments overlap with country-level subsets — do not sum.'
+    : '';
 
-    document.getElementById('typeFilters').innerHTML = types.map(t =>
-      `<button class="chip ${filters.type.has(t)?'active':''}" onclick="toggleFilter('type','${t}')">${typeShort[t]}</button>`
+  const fmt = v => v>=1e6?(v/1e6).toFixed(1)+'M':v>=1000?Math.round(v/1000)+'K':v;
+  const tc  = '#a8a49e';
+  const gc  = 'rgba(255,255,255,0.07)';
+
+  if (chartInst) chartInst.destroy();
+  chartInst = new Chart(document.getElementById('mainChart'), {
+    type:'bar',
+    data:{ labels, datasets:[{ data:values, backgroundColor:colors, borderRadius:3, borderSkipped:false }] },
+    options:{
+      indexAxis: isHoriz?'y':'x',
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>chartMode==='headcount'?' '+fmt(ctx.raw)+' people':' '+ctx.raw+' commitments'}}
+      },
+      scales:{
+        x:{grid:{color:isHoriz?gc:'transparent'},ticks:{color:tc,font:{size:11},callback:v=>chartMode==='headcount'&&isHoriz?fmt(v):v,maxRotation:isHoriz?0:40,autoSkip:false}},
+        y:{grid:{color:isHoriz?'transparent':gc},ticks:{color:tc,font:{size:11},callback:v=>chartMode==='headcount'&&!isHoriz?fmt(v):v}}
+      }
+    }
+  });
+
+  const legendEl = document.getElementById('chartLegend');
+  if (chartDim==='company') { legendEl.innerHTML=''; }
+  else {
+    legendEl.innerHTML = entries.map(([k],i) =>
+      `<span class="legend-item"><span class="legend-swatch" style="background:${colors[i]}"></span>${esc(k)}</span>`
     ).join('');
-
-    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sort-asc','sort-desc'));
-    const thMap = { year:0, country:1, target:4 };
-    const idx = thMap[sortKey];
-    if (idx !== undefined) {
-      const th = document.querySelectorAll('thead th')[idx];
-      if (th) th.classList.add('sort-' + sortDir);
-    }
   }
 
-  function renderStats(filtered) {
-    const total   = filtered.reduce((s,d) => s + (d.target||0), 0);
-    const fmtBig  = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : (n || '—');
-    const cos     = new Set(filtered.map(d => d.company));
-    const flagged = filtered.filter(d => d.flag).length;
-    const govCount = filtered.filter(d => d.provider_type === 'Government').length;
-    const cnCount  = filtered.filter(d => d.provider_type === 'Chinese Cloud').length;
+  const el     = document.getElementById('metricGrid');
+  const total  = entries.reduce((s,[,v])=>s+v[valKey],0);
+  const fmtM   = v => v>=1e6?(v/1e6).toFixed(1)+'M':v>=1000?Math.round(v/1000)+'K':String(v);
+  const groups2= aggregateChart();
+  el.innerHTML = entries.slice(0,9).map(([k,v],i) => {
+    const val = v[valKey];
+    const pct = total>0?Math.round(val/total*100):0;
+    return `<div class="metric-card">
+      <div class="metric-name" title="${esc(k)}">${esc(k)}</div>
+      <div class="metric-val">${chartMode==='headcount'?fmtM(val):val}</div>
+      <div class="metric-sub">${pct}% · ${groups2[k].commits} commitment${groups2[k].commits!==1?'s':''}</div>
+      <div class="metric-bar-bg"><div class="metric-bar-fg" style="width:${pct}%;background:${colors[i]}"></div></div>
+    </div>`;
+  }).join('');
+}
 
-    document.getElementById('statsBar').innerHTML = `
-      <div class="stat"><div class="stat-val">${filtered.length}</div><div class="stat-label">Entries</div></div>
-      <div class="stat-sep"></div>
-      <div class="stat"><div class="stat-val">${fmtBig(total)}</div><div class="stat-label">Headcount claimed</div></div>
-      <div class="stat-sep"></div>
-      <div class="stat"><div class="stat-val">${cos.size}</div><div class="stat-label">Organizations</div></div>
-      <div class="stat-sep"></div>
-      <div class="stat"><div class="stat-val">${govCount}</div><div class="stat-label">Govt programs</div></div>
-      <div class="stat-sep"></div>
-      <div class="stat"><div class="stat-val">${cnCount}</div><div class="stat-label">Chinese cloud</div></div>
-      <div class="stat-sep"></div>
-      <div class="stat"><div class="stat-val">${flagged}</div><div class="stat-label">Flagged</div></div>
-    `;
-  }
-
-  function renderTable(filtered) {
-    const tbody = document.getElementById('tableBody');
-    if (!filtered.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No matching entries</td></tr>';
-      document.getElementById('disclaimer').textContent = '';
-      return;
-    }
-
-    tbody.innerHTML = filtered.map(d => {
-      const pt    = d.provider_type || '';
-      const coCss = PROVIDER_CO_CSS[pt] || 'co-US';
-      const ptCss = PROVIDER_PT_CSS[pt] || 'pt-us';
-      const scCss = (d.scope || '').toLowerCase().includes('asean') ? 'sc-asean' : 'sc-country';
-      const scLabel = (d.scope || '').toLowerCase().includes('asean') ? 'ASEAN-wide' : 'Country';
-      return `
-      <tr>
-        <td class="year-cell">${d.year}</td>
-        <td>
-          <div class="country-cell">
-            <span class="country-dot dot-${d.country}"></span>
-            ${escHtml(COUNTRY_LABELS[d.country] || d.country)}
-          </div>
-          <span class="scope-tag ${scCss}">${scLabel}</span>
-        </td>
-        <td style="min-width:120px">
-          <div class="company-badge ${coCss}">${escHtml(d.company)}</div>
-          <span class="provider-tag ${ptCss}">${escHtml(pt)}</span>
-        </td>
-        <td style="min-width:190px">
-          <div class="initiative-name">${escHtml(d.name)}</div>
-          <div class="initiative-source">${escHtml(d.source || '')}</div>
-        </td>
-        <td>${fmtTarget(d.target, d.unit)}</td>
-        <td><span class="type-tag type-${d.type || 'skilling'}">${TYPE_LABELS[d.type] || d.type}</span></td>
-        <td class="notes-cell">
-          ${escHtml(d.notes || '')}
-          ${d.flag ? `<span class="flag-tag">⚑ ${escHtml(d.flag)}</span>` : ''}
-        </td>
-      </tr>`;
-    }).join('');
-
-    document.getElementById('disclaimer').textContent =
-      `${filtered.length} of ${allData.length} entries shown · ` +
-      `Total headcount includes overlapping programs and unverified targets · ` +
-      `ASEAN-wide figures should not be summed with country-level subsets · ` +
-      `Analytical flags are editorial · ` +
-      (meta.last_updated ? `Data as of ${meta.last_updated}` : '');
-  }
+updateChartBtns();
 </script>
 </body>
 </html>
