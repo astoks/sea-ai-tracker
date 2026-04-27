@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASEAN Cloud &amp; AI Investment Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f6f5f1;
+    --bg3: #efede8;
+    --text: #1a1a1a;
+    --text2: #6b6b6b;
+    --text3: #999;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --bg2: #2c2c2e;
+      --bg3: #3a3a3c;
+      --text: #f2f2f7;
+      --text2: #aeaeb2;
+      --text3: #636366;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .header { margin-bottom: 1.75rem; }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .header p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.55;
+    max-width: 680px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.6rem;
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  .ctrl-section { margin-bottom: 1.25rem; }
+  .ctrl-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .ctrl-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 72px;
+    flex-shrink: 0;
+  }
+  .pill {
+    padding: 4px 13px;
+    font-size: 12px;
+    border: 0.5px solid var(--border2);
+    border-radius: 100px;
+    background: transparent;
+    cursor: pointer;
+    color: var(--text2);
+    font-family: inherit;
+    transition: all 0.12s;
+  }
+  .pill:hover { background: var(--bg2); }
+  .pill.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .pill.us-on { background: #185FA5; color: #E6F1FB; border-color: #185FA5; }
+  .pill.cn-on { background: #A32D2D; color: #FCEBEB; border-color: #A32D2D; }
+  .pill.dom-on { background: #3B6D11; color: #EAF3DE; border-color: #3B6D11; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    margin: 1.25rem 0;
+  }
+  .sc {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.9rem;
+  }
+  .sv { font-size: 20px; font-weight: 500; color: var(--text); line-height: 1.2; }
+  .sl { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 1.25rem 0;
+  }
+  @media (max-width: 600px) {
+    .charts-row { grid-template-columns: 1fr; }
+  }
+  .chart-card {
+    background: var(--bg2);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+  }
+  .chart-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    margin-bottom: 10px;
+  }
+  .chart-box { position: relative; height: 200px; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0.75rem 0 1.25rem;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .li { display: flex; align-items: center; gap: 5px; }
+  .ls { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  .section-divider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 6px;
+    border-bottom: 0.5px solid var(--border2);
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+  }
+  .section-total { font-size: 11px; color: var(--text3); }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 580px; }
+  th {
+    text-align: left;
+    padding: 7px 10px;
+    color: var(--text3);
+    font-weight: 500;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg2); }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 100px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .sg { background: #E6F1FB; color: #0C447C; }
+  .my { background: #EAF3DE; color: #27500A; }
+  .id { background: #FAEEDA; color: #633806; }
+  .th { background: #FAECE7; color: #712B13; }
+  .est { font-size: 10px; color: var(--text3); }
+
+  .footnote {
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.6;
+    border-top: 0.5px solid var(--border);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  .branding {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .branding a { color: var(--text2); text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>ASEAN Cloud &amp; AI Infrastructure Investment Tracker</h1>
+    <p>Announced commitments from U.S. hyperscalers, Chinese cloud operators, and domestic conglomerates across Singapore, Malaysia, Indonesia, and Thailand.</p>
+    <div class="header-meta">
+      <span>Andrew Stokols · Singapore Management University</span>
+      <span>Updated April 2026</span>
+    </div>
+  </div>
+
+  <div class="ctrl-section">
+    <div class="ctrl-row">
+      <span class="ctrl-label">Country</span>
+      <button class="pill on" onclick="setCtry('all',this)">All</button>
+      <button class="pill" onclick="setCtry('SG',this)">Singapore</button>
+      <button class="pill" onclick="setCtry('MY',this)">Malaysia</button>
+      <button class="pill" onclick="setCtry('ID',this)">Indonesia</button>
+      <button class="pill" onclick="setCtry('TH',this)">Thailand</button>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Category</span>
+      <button class="pill us-on" id="btn-us" onclick="toggleCat('us',this)">U.S. hyperscalers</button>
+      <button class="pill cn-on" id="btn-cn" onclick="toggleCat('cn',this)">Chinese operators</button>
+      <button class="pill dom-on" id="btn-dom" onclick="toggleCat('dom',this)">Domestic conglomerates</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="sc"><div class="sv" id="s-total">$0B</div><div class="sl">total visible</div></div>
+    <div class="sc"><div class="sv" id="s-us">$0B</div><div class="sl">U.S. hyperscalers</div></div>
+    <div class="sc"><div class="sv" id="s-cn">$0B</div><div class="sl">Chinese operators</div></div>
+    <div class="sc"><div class="sv" id="s-dom">$0B</div><div class="sl">domestic conglomerates</div></div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">investment by country</div>
+      <div class="chart-box"><canvas id="c1" role="img" aria-label="Stacked bar chart of investment commitments by country and firm category.">Investment by country.</canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">investment by firm type</div>
+      <div class="chart-box"><canvas id="c2" role="img" aria-label="Horizontal bar chart comparing total investment by U.S. hyperscalers, Chinese operators, and domestic conglomerates.">Investment by firm type.</canvas></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="li"><span class="ls" style="background:#185FA5"></span>Microsoft</span>
+    <span class="li"><span class="ls" style="background:#D85A30"></span>Google</span>
+    <span class="li"><span class="ls" style="background:#EF9F27"></span>AWS</span>
+    <span class="li"><span class="ls" style="background:#639922"></span>Meta</span>
+    <span class="li"><span class="ls" style="background:#7F77DD"></span>ByteDance/TikTok</span>
+    <span class="li"><span class="ls" style="background:#E24B4A"></span>Alibaba Cloud</span>
+    <span class="li"><span class="ls" style="background:#B4B2A9"></span>Huawei Cloud</span>
+    <span class="li"><span class="ls" style="background:#F09595"></span>Haoyang Data</span>
+    <span class="li"><span class="ls" style="background:#5DCAA5"></span>Domestic infra</span>
+  </div>
+
+  <div id="table-wrap"></div>
+
+  <div class="footnote">
+    <strong>Notes on methodology:</strong> Figures are announced commitments over stated timeframes, not annual capex. Amounts marked <em>est.</em> are estimated from secondary sources where firms have not disclosed country-level figures. Domestic conglomerate figures reflect data center and energy infrastructure capex estimates, not equivalent to hyperscaler cloud investments. ByteDance/TikTok is classified as a Chinese operator. Some U.S. hyperscaler figures (esp. AWS Indonesia/Thailand) are from aggregator summaries rather than direct company announcements and should be treated with caution.<br><br>
+    <strong>Sources:</strong> Company announcements, Reuters, CNA, Data Center Dynamics, Introl/ASEAN Exchange (Mar 2026), ARC Group (2026), project fieldwork. Last updated April 2026.
+  </div>
+
+  <div class="branding">
+    <span>Andrew Stokols · Singapore Management University · <a href="https://astoks.github.io/sea-ai-tracker/" target="_blank">SEA AI Upskilling Tracker</a></span>
+    <span>Research supported by Microsoft AI Economy Institute Research Grant</span>
+  </div>
+
+</div>
+
+<script>
+const ALL = [
+  {country:'SG',cat:'us',firm:'Microsoft',amount:5.5,year:'2025–29',confirmed:true,notes:'Cloud and AI infrastructure and operations. Announced Apr 2026 alongside Thailand trip.'},
+  {country:'SG',cat:'us',firm:'AWS',amount:9.0,year:'2024–28',confirmed:true,notes:'US$9B commitment through 2028. New Asia-Pacific HQ opened Feb 2025.'},
+  {country:'SG',cat:'us',firm:'Google',amount:5.0,year:'Cumul.',confirmed:true,notes:'~US$5B cumulative investment in Singapore (ARC Group 2026). Ongoing cloud region expansion.'},
+  {country:'SG',cat:'us',firm:'Meta',amount:1.5,year:'2024–26',confirmed:false,notes:'Expanding Singapore DC footprint as part of APAC capex ramp.'},
+  {country:'SG',cat:'cn',firm:'Alibaba Cloud',amount:1.0,year:'2023–25',confirmed:false,notes:'Decade of operations; AI innovation hub opened Jul 2025 supporting 5,000+ businesses. Exact investment figure estimated from regional capex reports.'},
+  {country:'SG',cat:'cn',firm:'Huawei Cloud',amount:0.3,year:'2023–25',confirmed:false,notes:'Singapore cloud region and enterprise expansion. Exact figure not publicly disclosed.'},
+
+  {country:'MY',cat:'us',firm:'Microsoft',amount:2.2,year:'2024–26',confirmed:true,notes:'Announced May 2024 by Satya Nadella. Johor "Southeast Asia 3" Azure region + AI skilling.'},
+  {country:'MY',cat:'us',firm:'Google',amount:2.0,year:'2024–26',confirmed:true,notes:'First Malaysian DC and Google Cloud region. Announced 2024.'},
+  {country:'MY',cat:'us',firm:'AWS',amount:6.0,year:'2024–28',confirmed:false,notes:'AWS Malaysia expansion est. from Introl/ASEAN Exchange summary (Mar 2026). Not formally announced as standalone figure.'},
+  {country:'MY',cat:'dom',firm:'YTL Corp',amount:4.3,year:'2023–26',confirmed:false,notes:'600 MW YTL Green Data Center Park (Kulai/Nusajaya, Johor). Capex est. ~$7M/MW. Ranhill stake adds energy/water capacity. Chief customer believed to be Sea Group.'},
+  {country:'MY',cat:'dom',firm:'Maxis/Telekom',amount:0.5,year:'2024–26',confirmed:false,notes:'DC and cloud infrastructure expansion by Malaysian telcos aligned to Digital Economy Blueprint.'},
+
+  {country:'ID',cat:'us',firm:'Microsoft',amount:1.7,year:'2024–26',confirmed:true,notes:'US$1.7–1.8B per Microsoft ASEAN Head for AI and Cloud. Indonesia Central Region.'},
+  {country:'ID',cat:'us',firm:'Google',amount:1.0,year:'2024–26',confirmed:true,notes:'Cloud region investment; DCs in Jakarta area.'},
+  {country:'ID',cat:'us',firm:'AWS',amount:6.0,year:'2024–28',confirmed:false,notes:'~$6B investment est. (Introl/ASEAN Exchange, Mar 2026).'},
+  {country:'ID',cat:'us',firm:'Meta',amount:1.0,year:'2024–26',confirmed:false,notes:'Meta DC expansion Indonesia.'},
+  {country:'ID',cat:'cn',firm:'Alibaba Cloud',amount:1.0,year:'2023–25',confirmed:false,notes:'Alibaba operates Indonesia region; ongoing expansion. Exact figure not disclosed.'},
+  {country:'ID',cat:'dom',firm:'Indosat/Lintasarta',amount:0.8,year:'2024–26',confirmed:false,notes:'GPU Merdeka sovereign cloud (NVIDIA H100s at BDx DC). Capex est. from company filings and press reports.'},
+  {country:'ID',cat:'dom',firm:'GoTo/Tokopedia',amount:0.3,year:'2024–25',confirmed:false,notes:'DC and AI compute investment as part of Sahabat AI development and GoPay integration.'},
+  {country:'ID',cat:'dom',firm:'Telkom Indonesia',amount:0.5,year:'2024–26',confirmed:false,notes:'NeutraDC and related cloud infrastructure expansion.'},
+
+  {country:'TH',cat:'us',firm:'Microsoft',amount:1.0,year:'2026–28',confirmed:true,notes:'Announced 31 Mar 2026. Full Azure cloud region. Partners: Gulf Energy, AIS, CP Group, True IDC.'},
+  {country:'TH',cat:'us',firm:'Google',amount:1.0,year:'2024–26',confirmed:true,notes:'Announced Sep 2024; Bangkok cloud region live Jan 2026.'},
+  {country:'TH',cat:'us',firm:'AWS',amount:5.0,year:'2024–28',confirmed:false,notes:'~$5B est. (NBT/ASEAN aggregator). AWS cloud region already live in Thailand.'},
+  {country:'TH',cat:'us',firm:'ByteDance',amount:8.8,year:'2024–29',confirmed:true,notes:'TikTok/ByteDance $8.8B over 5 years. Largest single commitment to Thailand.'},
+  {country:'TH',cat:'cn',firm:'Alibaba Cloud',amount:0.3,year:'2024–26',confirmed:true,notes:'Second Thailand DC launched Feb 2026. Exact capex est. from regional press.'},
+  {country:'TH',cat:'cn',firm:'Haoyang Data',amount:2.2,year:'2025–26',confirmed:true,notes:'300 MW campus at WHA Eastern Seaboard Industrial Estate 4, Rayong. $2.164B total build cost. Land purchased from WHA. Operational target 2026.'},
+  {country:'TH',cat:'dom',firm:'Gulf Energy',amount:0.8,year:'2025–28',confirmed:false,notes:'Primary energy/land partner for Microsoft Azure region. DC infrastructure capex est. from partnership scope.'},
+  {country:'TH',cat:'dom',firm:'CP Group/True IDC',amount:0.5,year:'2025–27',confirmed:false,notes:'True IDC DC expansion as Microsoft partner; CP Group digital infrastructure investment.'},
+  {country:'TH',cat:'dom',firm:'WHA Group',amount:0.4,year:'2024–26',confirmed:false,notes:'Industrial estate developer and land provider for Haoyang campus and other DC projects in EEC.'},
+];
+
+const CNAME = {SG:'Singapore',MY:'Malaysia',ID:'Indonesia',TH:'Thailand'};
+const usFirms = ['Microsoft','Google','AWS','Meta','ByteDance'];
+const cnFirms = ['Alibaba Cloud','Huawei Cloud','Haoyang Data'];
+const domFirms = ['YTL Corp','Indosat/Lintasarta','GoTo/Tokopedia','Telkom Indonesia','Gulf Energy','CP Group/True IDC','WHA Group','Maxis/Telekom'];
+
+let cCountry = 'all';
+let cats = new Set(['us','cn','dom']);
+let c1inst = null, c2inst = null;
+
+function visible() {
+  return ALL.filter(d => (cCountry === 'all' || d.country === cCountry) && cats.has(d.cat));
+}
+
+function sumBy(country, firmList) {
+  return ALL.filter(d => d.country === country && firmList.includes(d.firm)).reduce((s,x) => s + x.amount, 0);
+}
+
+function catTotal(firmList) {
+  return ALL.filter(d => (cCountry === 'all' || d.country === cCountry) && firmList.includes(d.firm)).reduce((s,x) => s + x.amount, 0);
+}
+
+function renderStats() {
+  const v = visible();
+  document.getElementById('s-total').textContent = '$' + v.reduce((s,x) => s+x.amount, 0).toFixed(1) + 'B';
+  document.getElementById('s-us').textContent = '$' + ALL.filter(d => (cCountry==='all'||d.country===cCountry) && d.cat==='us').reduce((s,x)=>s+x.amount,0).toFixed(1) + 'B';
+  document.getElementById('s-cn').textContent = '$' + ALL.filter(d => (cCountry==='all'||d.country===cCountry) && d.cat==='cn').reduce((s,x)=>s+x.amount,0).toFixed(1) + 'B';
+  document.getElementById('s-dom').textContent = '$' + ALL.filter(d => (cCountry==='all'||d.country===cCountry) && d.cat==='dom').reduce((s,x)=>s+x.amount,0).toFixed(1) + 'B';
+}
+
+function renderTable() {
+  const sections = [
+    {key:'us', label:'U.S. hyperscalers', firmList: usFirms},
+    {key:'cn', label:'Chinese operators', firmList: cnFirms},
+    {key:'dom', label:'Domestic conglomerates', firmList: domFirms},
+  ];
+  let html = '';
+  sections.forEach(sec => {
+    if (!cats.has(sec.key)) return;
+    const rows = ALL.filter(d => (cCountry==='all'||d.country===cCountry) && sec.firmList.includes(d.firm));
+    if (!rows.length) return;
+    const tot = rows.reduce((s,x) => s+x.amount, 0);
+    html += `<div class="section-divider"><span>${sec.label}</span><span class="section-total">$${tot.toFixed(1)}B visible</span></div>`;
+    html += '<div class="table-wrap"><table><thead><tr><th style="width:100px">Country</th><th style="width:130px">Firm</th><th style="width:70px">Amount</th><th style="width:80px">Period</th><th>Notes</th></tr></thead><tbody>';
+    rows.forEach(r => {
+      const conf = r.confirmed ? '' : '<span class="est"> est.</span>';
+      const cn = {SG:'sg',MY:'my',ID:'id',TH:'th'}[r.country];
+      html += `<tr><td><span class="badge ${cn}">${CNAME[r.country]}</span></td><td style="font-weight:500">${r.firm}</td><td>$${r.amount.toFixed(1)}B${conf}</td><td style="color:var(--text2)">${r.year}</td><td style="color:var(--text2)">${r.notes}</td></tr>`;
+    });
+    html += '</tbody></table></div><div style="margin-bottom:1rem"></div>';
+  });
+  document.getElementById('table-wrap').innerHTML = html;
+}
+
+function renderCharts() {
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const tickColor = isDark ? '#aeaeb2' : '#888780';
+  const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+
+  const countries = ['SG','MY','ID','TH'];
+  const disp = cCountry === 'all' ? countries : [cCountry];
+
+  if (c1inst) c1inst.destroy();
+  c1inst = new Chart(document.getElementById('c1'), {
+    type: 'bar',
+    data: {
+      labels: disp.map(c => CNAME[c]),
+      datasets: [
+        {label:'U.S.', data: disp.map(c => sumBy(c, usFirms)), backgroundColor:'#185FA5', hidden: !cats.has('us')},
+        {label:'Chinese', data: disp.map(c => sumBy(c, cnFirms)), backgroundColor:'#E24B4A', hidden: !cats.has('cn')},
+        {label:'Domestic', data: disp.map(c => sumBy(c, domFirms)), backgroundColor:'#5DCAA5', hidden: !cats.has('dom')},
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: {display:false}, tooltip: {callbacks:{label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(1)}B`}} },
+      scales: {
+        x: {stacked:true, grid:{display:false}, ticks:{color:tickColor, font:{size:11}}},
+        y: {stacked:true, grid:{color:gridColor}, ticks:{color:tickColor, font:{size:10}, callback: v => '$'+v+'B'}}
+      }
+    }
+  });
+
+  const catData = [
+    {label:'U.S. hyperscalers', val: catTotal(usFirms), color:'#185FA5'},
+    {label:'Chinese operators', val: catTotal(cnFirms), color:'#E24B4A'},
+    {label:'Domestic', val: catTotal(domFirms), color:'#5DCAA5'},
+  ];
+
+  if (c2inst) c2inst.destroy();
+  c2inst = new Chart(document.getElementById('c2'), {
+    type: 'bar',
+    data: {
+      labels: catData.map(x => x.label),
+      datasets: [{data: catData.map(x => x.val), backgroundColor: catData.map(x => x.color), borderWidth:0}]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label: ctx => `$${ctx.parsed.x.toFixed(1)}B`}} },
+      scales: {
+        x: {grid:{color:gridColor}, ticks:{color:tickColor, font:{size:10}, callback: v => '$'+v+'B'}},
+        y: {grid:{display:false}, ticks:{color:tickColor, font:{size:11}}}
+      }
+    }
+  });
+}
+
+function setCtry(c, btn) {
+  cCountry = c;
+  document.querySelectorAll('.ctrl-row:first-child .pill').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+function toggleCat(c, btn) {
+  if (cats.has(c)) { if (cats.size > 1) cats.delete(c); }
+  else cats.add(c);
+  const onClass = {us:'us-on', cn:'cn-on', dom:'dom-on'};
+  ['us','cn','dom'].forEach(k => {
+    const b = document.getElementById('btn-' + k);
+    b.className = 'pill';
+    if (cats.has(k)) b.classList.add(onClass[k]);
+  });
+  render();
+}
+
+function render() { renderStats(); renderTable(); renderCharts(); }
+render();
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
+</script>
+</body>
+</html>
