@@ -197,6 +197,8 @@
   .my { background: #EAF3DE; color: #27500A; }
   .id { background: #FAEEDA; color: #633806; }
   .th { background: #FAECE7; color: #712B13; }
+  .ph { background: #F0E9FA; color: #4A1A7A; }
+  .vn { background: #FEE9E9; color: #7A1A1A; }
   .est { font-size: 10px; color: var(--text3); }
 
   .footnote {
@@ -228,7 +230,7 @@
 
   <div class="header">
     <h1>ASEAN Cloud &amp; AI Infrastructure Investment Tracker</h1>
-    <p>Announced commitments from U.S. hyperscalers, Chinese cloud operators, and domestic conglomerates across Singapore, Malaysia, Indonesia, and Thailand.</p>
+    <p>Announced commitments from U.S. hyperscalers, Chinese cloud operators, and domestic conglomerates across Singapore, Malaysia, Indonesia, Thailand, the Philippines, and Vietnam.</p>
     <div class="header-meta">
       <span>Andrew Stokols · Singapore Management University</span>
       <span>Updated April 2026</span>
@@ -243,6 +245,8 @@
       <button class="pill" onclick="setCtry('MY',this)">Malaysia</button>
       <button class="pill" onclick="setCtry('ID',this)">Indonesia</button>
       <button class="pill" onclick="setCtry('TH',this)">Thailand</button>
+      <button class="pill" onclick="setCtry('PH',this)">Philippines</button>
+      <button class="pill" onclick="setCtry('VN',this)">Vietnam</button>
     </div>
     <div class="ctrl-row">
       <span class="ctrl-label">Category</span>
@@ -278,6 +282,7 @@
     <span class="li"><span class="ls" style="background:#7F77DD"></span>ByteDance/TikTok</span>
     <span class="li"><span class="ls" style="background:#E24B4A"></span>Alibaba Cloud</span>
     <span class="li"><span class="ls" style="background:#B4B2A9"></span>Huawei Cloud</span>
+    <span class="li"><span class="ls" style="background:#00A3E0"></span>Tencent Cloud</span>
     <span class="li"><span class="ls" style="background:#F09595"></span>Haoyang Data</span>
     <span class="li"><span class="ls" style="background:#5DCAA5"></span>Domestic infra</span>
   </div>
@@ -285,8 +290,8 @@
   <div id="table-wrap"></div>
 
   <div class="footnote">
-    <strong>Notes on methodology:</strong> Figures are announced commitments over stated timeframes, not annual capex. Amounts marked <em>est.</em> are estimated from secondary sources where firms have not disclosed country-level figures. Domestic conglomerate figures reflect data center and energy infrastructure capex estimates, not equivalent to hyperscaler cloud investments. ByteDance/TikTok is classified as a Chinese operator. Some U.S. hyperscaler figures (esp. AWS Indonesia/Thailand) are from aggregator summaries rather than direct company announcements and should be treated with caution.<br><br>
-    <strong>Sources:</strong> Company announcements, Reuters, CNA, Data Center Dynamics, Introl/ASEAN Exchange (Mar 2026), ARC Group (2026), project fieldwork. Last updated April 2026.
+    <strong>Notes on methodology:</strong> Figures are announced commitments over stated timeframes, not annual capex. Amounts marked <em>est.</em> are estimated from secondary sources where firms have not disclosed country-level figures. Domestic conglomerate figures reflect data center and energy infrastructure capex estimates, not equivalent to hyperscaler cloud investments. ByteDance/TikTok is classified as a Chinese operator for Malaysia (direct investment) and under U.S. hyperscalers for Thailand (where it operates through a Singapore-based entity in the regional investment context). Some U.S. hyperscaler figures (esp. AWS Indonesia/Thailand) are from aggregator summaries rather than direct company announcements and should be treated with caution. ByteDance Thailand figure revised to $3.8B per DataGarda/LinkedIn sources; earlier $8.8B figure was likely an aggregator error.<br><br>
+    <strong>Sources:</strong> Company announcements, Reuters, CNA, Data Center Dynamics, The Edge Malaysia, Bernama, Business Times Singapore, Tech in Asia, W.Media, Introl/ASEAN Exchange (Mar 2026), ARC Group (2026), project fieldwork. Last updated April 2026.
   </div>
 
   <div class="branding">
@@ -304,10 +309,14 @@ const ALL = [
   {country:'SG',cat:'us',firm:'Meta',amount:1.5,year:'2024–26',confirmed:false,notes:'Expanding Singapore DC footprint as part of APAC capex ramp.'},
   {country:'SG',cat:'cn',firm:'Alibaba Cloud',amount:1.0,year:'2023–25',confirmed:false,notes:'Decade of operations; AI innovation hub opened Jul 2025 supporting 5,000+ businesses. Exact investment figure estimated from regional capex reports.'},
   {country:'SG',cat:'cn',firm:'Huawei Cloud',amount:0.3,year:'2023–25',confirmed:false,notes:'Singapore cloud region and enterprise expansion. Exact figure not publicly disclosed.'},
+  {country:'SG',cat:'cn',firm:'Tencent Cloud',amount:0.2,year:'2024–26',confirmed:false,notes:'Singapore-based regional HQ for APAC operations; Tencent Cloud Day Singapore Nov 2025. No country-level capex figure disclosed; est. from regional expansion scope.'},
 
   {country:'MY',cat:'us',firm:'Microsoft',amount:2.2,year:'2024–26',confirmed:true,notes:'Announced May 2024 by Satya Nadella. Johor "Southeast Asia 3" Azure region + AI skilling.'},
   {country:'MY',cat:'us',firm:'Google',amount:2.0,year:'2024–26',confirmed:true,notes:'First Malaysian DC and Google Cloud region. Announced 2024.'},
   {country:'MY',cat:'us',firm:'AWS',amount:6.0,year:'2024–28',confirmed:false,notes:'AWS Malaysia expansion est. from Introl/ASEAN Exchange summary (Mar 2026). Not formally announced as standalone figure.'},
+  {country:'MY',cat:'cn',firm:'ByteDance/TikTok',amount:2.1,year:'2024–26',confirmed:true,notes:'RM10 billion (~$2.13B) AI hub and DC expansion in Malaysia announced Jun 2024. Site: Johor and Sime Darby Elmina Business Park, Greater KL. Further RM1.5B expansion flagged.'},
+  {country:'MY',cat:'cn',firm:'Alibaba Cloud',amount:0.5,year:'2024–26',confirmed:false,notes:'Third DC opened Jul 2025 in Malaysia; fourth DC expected by 2026. No exact capex publicly disclosed; est. from multi-region expansion trajectory.'},
+  {country:'MY',cat:'cn',firm:'Tencent Cloud',amount:0.15,year:'2024–26',confirmed:true,notes:'US$150M investment in Malaysia announced Oct 2025 (The Edge Malaysia). Cloud and AI capability expansion.'},
   {country:'MY',cat:'dom',firm:'YTL Corp',amount:4.3,year:'2023–26',confirmed:false,notes:'600 MW YTL Green Data Center Park (Kulai/Nusajaya, Johor). Capex est. ~$7M/MW. Ranhill stake adds energy/water capacity. Chief customer believed to be Sea Group.'},
   {country:'MY',cat:'dom',firm:'Maxis/Telekom',amount:0.5,year:'2024–26',confirmed:false,notes:'DC and cloud infrastructure expansion by Malaysian telcos aligned to Digital Economy Blueprint.'},
 
@@ -316,6 +325,8 @@ const ALL = [
   {country:'ID',cat:'us',firm:'AWS',amount:6.0,year:'2024–28',confirmed:false,notes:'~$6B investment est. (Introl/ASEAN Exchange, Mar 2026).'},
   {country:'ID',cat:'us',firm:'Meta',amount:1.0,year:'2024–26',confirmed:false,notes:'Meta DC expansion Indonesia.'},
   {country:'ID',cat:'cn',firm:'Alibaba Cloud',amount:1.0,year:'2023–25',confirmed:false,notes:'Alibaba operates Indonesia region; ongoing expansion. Exact figure not disclosed.'},
+  {country:'ID',cat:'cn',firm:'Tencent Cloud',amount:0.5,year:'2024–30',confirmed:true,notes:'$500M investment by 2030 announced Nov 2024 (Data Center Dynamics). Indonesian cloud region expansion.'},
+  {country:'ID',cat:'cn',firm:'Huawei Cloud',amount:0.2,year:'2025–26',confirmed:false,notes:'Fourth AZ in Indonesia announced Dec 2025; ongoing cloud and AI expansion. No exact capex disclosed; est. from AZ build-out scope.'},
   {country:'ID',cat:'dom',firm:'Indosat/Lintasarta',amount:0.8,year:'2024–26',confirmed:false,notes:'GPU Merdeka sovereign cloud (NVIDIA H100s at BDx DC). Capex est. from company filings and press reports.'},
   {country:'ID',cat:'dom',firm:'GoTo/Tokopedia',amount:0.3,year:'2024–25',confirmed:false,notes:'DC and AI compute investment as part of Sahabat AI development and GoPay integration.'},
   {country:'ID',cat:'dom',firm:'Telkom Indonesia',amount:0.5,year:'2024–26',confirmed:false,notes:'NeutraDC and related cloud infrastructure expansion.'},
@@ -323,18 +334,31 @@ const ALL = [
   {country:'TH',cat:'us',firm:'Microsoft',amount:1.0,year:'2026–28',confirmed:true,notes:'Announced 31 Mar 2026. Full Azure cloud region. Partners: Gulf Energy, AIS, CP Group, True IDC.'},
   {country:'TH',cat:'us',firm:'Google',amount:1.0,year:'2024–26',confirmed:true,notes:'Announced Sep 2024; Bangkok cloud region live Jan 2026.'},
   {country:'TH',cat:'us',firm:'AWS',amount:5.0,year:'2024–28',confirmed:false,notes:'~$5B est. (NBT/ASEAN aggregator). AWS cloud region already live in Thailand.'},
-  {country:'TH',cat:'us',firm:'ByteDance',amount:8.8,year:'2024–29',confirmed:true,notes:'TikTok/ByteDance $8.8B over 5 years. Largest single commitment to Thailand.'},
+  {country:'TH',cat:'us',firm:'ByteDance',amount:3.8,year:'2024–29',confirmed:true,notes:'TikTok/ByteDance $3.8B DC investment in Thailand (DataGarda, LinkedIn sources; figure revised down from earlier $8.8B aggregator estimate). Largest confirmed single commitment to Thailand.'},
   {country:'TH',cat:'cn',firm:'Alibaba Cloud',amount:0.3,year:'2024–26',confirmed:true,notes:'Second Thailand DC launched Feb 2026. Exact capex est. from regional press.'},
+  {country:'TH',cat:'cn',firm:'Huawei Cloud',amount:0.16,year:'2018–26',confirmed:true,notes:'Cumulative 5.5 billion baht (~$158M) invested since 2018 in Thailand cloud infrastructure (Bernama, Aug 2024). Market leader in Thai cloud enterprise.'},
   {country:'TH',cat:'cn',firm:'Haoyang Data',amount:2.2,year:'2025–26',confirmed:true,notes:'300 MW campus at WHA Eastern Seaboard Industrial Estate 4, Rayong. $2.164B total build cost. Land purchased from WHA. Operational target 2026.'},
   {country:'TH',cat:'dom',firm:'Gulf Energy',amount:0.8,year:'2025–28',confirmed:false,notes:'Primary energy/land partner for Microsoft Azure region. DC infrastructure capex est. from partnership scope.'},
   {country:'TH',cat:'dom',firm:'CP Group/True IDC',amount:0.5,year:'2025–27',confirmed:false,notes:'True IDC DC expansion as Microsoft partner; CP Group digital infrastructure investment.'},
   {country:'TH',cat:'dom',firm:'WHA Group',amount:0.4,year:'2024–26',confirmed:false,notes:'Industrial estate developer and land provider for Haoyang campus and other DC projects in EEC.'},
+
+  {country:'PH',cat:'us',firm:'Microsoft',amount:0.0,year:'—',confirmed:false,notes:'No standalone DC investment announced as of Apr 2026. Microsoft offers cloud services via regional presence but no Philippines-specific capital commitment disclosed.'},
+  {country:'PH',cat:'us',firm:'Google',amount:0.0,year:'—',confirmed:false,notes:'Considering first Philippines DC as of mid-2025 (Nikkei Asia). No formal announcement or investment figure confirmed.'},
+  {country:'PH',cat:'cn',firm:'Alibaba Cloud',amount:0.1,year:'2025',confirmed:true,notes:'Second Philippines DC launched Oct 2025 (Tech in Asia, Alibaba Cloud press release). First DC already operational. No capex figure disclosed; est. from single-DC build cost range.'},
+  {country:'PH',cat:'cn',firm:'Huawei Cloud',amount:0.1,year:'2024–26',confirmed:false,notes:'Huawei Cloud Philippines active as of Oct 2025 (DCAP event). Cloud and enterprise services expansion. No investment figure disclosed.'},
+  {country:'PH',cat:'dom',firm:'PLDT/ePLDT',amount:0.3,year:'2024–26',confirmed:false,notes:'ePLDT (PLDT subsidiary) expanding VITRO DC footprint; est. capex from publicly reported DC expansion plans in Clark and Metro Manila.'},
+
+  {country:'VN',cat:'us',firm:'Microsoft',amount:0.0,year:'—',confirmed:false,notes:'No standalone Vietnam DC investment announced as of Apr 2026. Microsoft active via cloud services; Vietnam included in ASEAN AI skilling commitments but no capital commitment.'},
+  {country:'VN',cat:'us',firm:'Google',amount:0.0,year:'—',confirmed:false,notes:'No standalone Vietnam cloud region announced. Google named alongside NVIDIA and Alibaba as investors of interest (Earth Journalism Network, Jan 2026); no confirmed capex.'},
+  {country:'VN',cat:'cn',firm:'Alibaba Cloud',amount:1.0,year:'2024–26',confirmed:false,notes:'Plans for ~$1B data center in Vietnam reported May 2024 (ITPC). Status subject to Vietnam data center regulations and power constraints (Jan 2026 reports flagged delays).'},
+  {country:'VN',cat:'dom',firm:'Viettel IDC',amount:0.5,year:'2024–26',confirmed:false,notes:'Viettel Group state-owned DC and cloud infrastructure expansion. Vietnam domestic cloud market leader. Capex est. from reported capacity expansion plans.'},
+  {country:'VN',cat:'dom',firm:'VNPT/VinaHost',amount:0.2,year:'2024–26',confirmed:false,notes:'State-owned telco expanding cloud and DC services. Smaller capex footprint relative to Viettel.'},
 ];
 
-const CNAME = {SG:'Singapore',MY:'Malaysia',ID:'Indonesia',TH:'Thailand'};
+const CNAME = {SG:'Singapore',MY:'Malaysia',ID:'Indonesia',TH:'Thailand',PH:'Philippines',VN:'Vietnam'};
 const usFirms = ['Microsoft','Google','AWS','Meta','ByteDance'];
-const cnFirms = ['Alibaba Cloud','Huawei Cloud','Haoyang Data'];
-const domFirms = ['YTL Corp','Indosat/Lintasarta','GoTo/Tokopedia','Telkom Indonesia','Gulf Energy','CP Group/True IDC','WHA Group','Maxis/Telekom'];
+const cnFirms = ['Alibaba Cloud','Huawei Cloud','Haoyang Data','Tencent Cloud','ByteDance/TikTok'];
+const domFirms = ['YTL Corp','Indosat/Lintasarta','GoTo/Tokopedia','Telkom Indonesia','Gulf Energy','CP Group/True IDC','WHA Group','Maxis/Telekom','PLDT/ePLDT','Viettel IDC','VNPT/VinaHost'];
 
 let cCountry = 'all';
 let cats = new Set(['us','cn','dom']);
@@ -376,8 +400,9 @@ function renderTable() {
     html += '<div class="table-wrap"><table><thead><tr><th style="width:100px">Country</th><th style="width:130px">Firm</th><th style="width:70px">Amount</th><th style="width:80px">Period</th><th>Notes</th></tr></thead><tbody>';
     rows.forEach(r => {
       const conf = r.confirmed ? '' : '<span class="est"> est.</span>';
-      const cn = {SG:'sg',MY:'my',ID:'id',TH:'th'}[r.country];
-      html += `<tr><td><span class="badge ${cn}">${CNAME[r.country]}</span></td><td style="font-weight:500">${r.firm}</td><td>$${r.amount.toFixed(1)}B${conf}</td><td style="color:var(--text2)">${r.year}</td><td style="color:var(--text2)">${r.notes}</td></tr>`;
+      const cn = {SG:'sg',MY:'my',ID:'id',TH:'th',PH:'ph',VN:'vn'}[r.country];
+      const amountStr = r.amount === 0 ? '<span style="color:var(--text3)">—</span>' : `$${r.amount.toFixed(1)}B${conf}`;
+      html += `<tr><td><span class="badge ${cn}">${CNAME[r.country]}</span></td><td style="font-weight:500">${r.firm}</td><td>${amountStr}</td><td style="color:var(--text2)">${r.year}</td><td style="color:var(--text2)">${r.notes}</td></tr>`;
     });
     html += '</tbody></table></div><div style="margin-bottom:1rem"></div>';
   });
@@ -389,7 +414,7 @@ function renderCharts() {
   const tickColor = isDark ? '#aeaeb2' : '#888780';
   const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
 
-  const countries = ['SG','MY','ID','TH'];
+  const countries = ['SG','MY','ID','TH','PH','VN'];
   const disp = cCountry === 'all' ? countries : [cCountry];
 
   if (c1inst) c1inst.destroy();
