@@ -201,6 +201,35 @@
   .vn { background: #FEE9E9; color: #7A1A1A; }
   .est { font-size: 10px; color: var(--text3); }
 
+  .pipeline-section {
+    margin-top: 2rem;
+  }
+  .pipeline-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 0.75rem;
+  }
+  .pipeline-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pipeline-table th {
+    text-align: left; padding: 6px 8px;
+    border-bottom: 1px solid var(--border2);
+    font-weight: 600; color: var(--text2);
+    font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .pipeline-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .pipeline-table tr:last-child td { border-bottom: none; }
+  .stage-badge {
+    display: inline-block; padding: 2px 7px; border-radius: 20px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap;
+  }
+  .stage-talks    { background: #FFF3CD; color: #856404; }
+  .stage-mou      { background: #D4EDDA; color: #155724; }
+  .stage-tender   { background: #CCE5FF; color: #004085; }
+  .stage-exploring { background: #F3E5FA; color: #5B1E87; }
+
   .footnote {
     font-size: 11px;
     color: var(--text3);
@@ -289,9 +318,25 @@
 
   <div id="table-wrap"></div>
 
+  <div class="pipeline-section">
+    <div class="pipeline-title">📡 Pipeline — Government Meetings &amp; Exploratory Deals</div>
+    <div class="table-wrap">
+    <table class="pipeline-table">
+      <thead><tr>
+        <th style="width:100px">Country</th>
+        <th style="width:130px">Firm</th>
+        <th style="width:90px">Stage</th>
+        <th style="width:80px">Date</th>
+        <th>Signal</th>
+      </tr></thead>
+      <tbody id="pipeline-tbody"></tbody>
+    </table>
+    </div>
+  </div>
+
   <div class="footnote">
     <strong>Notes on methodology:</strong> Figures are announced commitments over stated timeframes, not annual capex. Amounts marked <em>est.</em> are estimated from secondary sources where firms have not disclosed country-level figures. Domestic conglomerate figures reflect data center and energy infrastructure capex estimates, not equivalent to hyperscaler cloud investments. ByteDance/TikTok is classified as a Chinese operator for Malaysia (direct investment) and under U.S. hyperscalers for Thailand (where it operates through a Singapore-based entity in the regional investment context). Some U.S. hyperscaler figures (esp. AWS Indonesia/Thailand) are from aggregator summaries rather than direct company announcements and should be treated with caution. ByteDance Thailand figure revised to $3.8B per DataGarda/LinkedIn sources; earlier $8.8B figure was likely an aggregator error.<br><br>
-    <strong>Sources:</strong> Company announcements, Reuters, CNA, Data Center Dynamics, The Edge Malaysia, Bernama, Business Times Singapore, Tech in Asia, W.Media, Introl/ASEAN Exchange (Mar 2026), ARC Group (2026), project fieldwork. Last updated April 2026.
+    <strong>Sources:</strong> Company announcements, Reuters, CNA, Data Center Dynamics, The Edge Malaysia, Bernama, Business Times Singapore, Tech in Asia, W.Media, VietnamPlus, VietnamNews, The Investor (VN), Introl/ASEAN Exchange (Mar 2026), ARC Group (2026), project fieldwork. Pipeline section tracks government meetings, MOUs, and exploratory signals — not confirmed capital commitments. Last updated May 2026.
   </div>
 
   <div class="branding">
@@ -481,7 +526,53 @@ function toggleCat(c, btn) {
   render();
 }
 
-function render() { renderStats(); renderTable(); renderCharts(); }
+const PIPELINE = [
+  // Vietnam
+  {country:'VN', firm:'AWS',         stage:'talks',     date:'May 2026',  signal:'Deputy PM Nguyen Van Thang met AWS leadership, called for expanded cooperation on digital infrastructure and cloud. No investment figure or timeline stated. (VietnamPlus / VietnamNews, 8 May 2026)'},
+  {country:'VN', firm:'AWS',         stage:'talks',     date:'Feb 2026',  signal:'Minister of Public Security Luong Tam Quang hosted AWS VP for Data Center Development Kerry Person; encouraged Amazon to expand Vietnam investment and AI training programs. (The Investor, 23 Feb 2026)'},
+  {country:'VN', firm:'Google',      stage:'exploring', date:'2025–26',   signal:'Google named among investors of interest for Vietnam DC market alongside NVIDIA and Alibaba; no commitment confirmed. Power constraints and regulatory uncertainty flagged as obstacles. (Earth Journalism Network, Jan 2026)'},
+  {country:'VN', firm:'Alibaba Cloud',stage:'mou',      date:'May 2024',  signal:'Alibaba announced ~$1B DC plan for Vietnam (ITPC, May 2024). Status uncertain: Jan 2026 reports flagged delays due to power grid constraints and data localization regulations.'},
+  {country:'VN', firm:'Microsoft',   stage:'talks',     date:'Apr 2026',  signal:'PM Le Minh Hung met US business delegation in Hanoi (Apr 16, 2026) welcoming US investment in energy, technology and telecoms. Microsoft participation inferred from delegation composition. (The Investor, 18 Apr 2026)'},
+
+  // Philippines
+  {country:'PH', firm:'Google',      stage:'exploring', date:'Mar 2026',  signal:'Google "exploring data center opportunities in the Philippines" but no construction started as of March 2026 (Instagram / The Tech Capital, Mar 2026). Government confirmed Google is "considering" a DC (Nikkei Asia, May 2025).'},
+  {country:'PH', firm:'Microsoft',   stage:'exploring', date:'2025–26',   signal:'No standalone Philippines DC investment announced. Microsoft provides cloud services regionally; Philippines included in ASEAN AI skilling commitments. Government DICT Secretary targeting 1 GW hyperscale capacity by 2029 (ABS-CBN, Nov 2025).'},
+  {country:'PH', firm:'AWS',         stage:'exploring', date:'2025',      signal:'AWS published positioning paper on Philippines hyperscale DC potential (MERALCO/AWS whitepaper). No country-level investment announced.'},
+
+  // Malaysia
+  {country:'MY', firm:'AWS',         stage:'mou',       date:'2024–25',   signal:'AWS has not made standalone Malaysia announcement comparable to Microsoft/Google. Likely operating under regional expansion; separate country commitment anticipated but not yet confirmed.'},
+
+  // Indonesia
+  {country:'ID', firm:'Google',      stage:'mou',       date:'2024',      signal:'Google announced first Indonesia cloud region. Indonesian government has pressed for expanded AI sovereignty commitments including local model development partnerships (Sahabat AI context).'},
+
+  // Thailand
+  {country:'TH', firm:'AWS',         stage:'mou',       date:'Jan 2025',  signal:'AWS opened Thailand infrastructure region January 2025 and committed US$5B+ over 15 years. Partnership with Thai government on cloud transformation confirmed (EDB SEA Report, Feb 2026).'},
+
+  // Singapore
+  {country:'SG', firm:'Microsoft',   stage:'mou',       date:'Apr 2026',  signal:'Microsoft $5.5B Singapore commitment 2025–2029 announced alongside Thailand visit by CEO Satya Nadella. Includes AI skilling and government partnership components. (Microsoft Source, Apr 2026)'},
+];
+
+function stageLabel(s) {
+  const map = {talks:'Gov\'t Talks', mou:'MOU / Announced', exploring:'Exploring', tender:'Tender'};
+  return map[s] || s;
+}
+
+function renderPipeline() {
+  const tbody = document.getElementById('pipeline-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = PIPELINE.map(p => {
+    const cn = {SG:'sg',MY:'my',ID:'id',TH:'th',PH:'ph',VN:'vn'}[p.country];
+    return `<tr>
+      <td><span class="badge ${cn}">${CNAME[p.country]}</span></td>
+      <td style="font-weight:500">${p.firm}</td>
+      <td><span class="stage-badge stage-${p.stage}">${stageLabel(p.stage)}</span></td>
+      <td style="color:var(--text2);white-space:nowrap">${p.date}</td>
+      <td style="color:var(--text2)">${p.signal}</td>
+    </tr>`;
+  }).join('');
+}
+
+function render() { renderStats(); renderTable(); renderCharts(); renderPipeline(); }
 render();
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
